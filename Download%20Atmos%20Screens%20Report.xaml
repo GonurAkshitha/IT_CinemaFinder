@@ -1,0 +1,465 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Download_Inactive_Users_Report" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ss="clr-namespace:System.Security;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:usl="clr-namespace:UiPathTeam.Salesforce.Lightning_Platform;assembly=UiPathTeam.Salesforce.Activities.Lightning_Platform" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="out_AtmosScreens" Type="OutArgument(sd:DataTable)" />
+    <x:Property Name="in_logNotifications" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="out_Auth" Type="OutArgument(x:String)" />
+    <x:Property Name="out_Username" Type="OutArgument(x:String)" />
+    <x:Property Name="out_Password" Type="OutArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1410.4,5014.4</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>Download_Inactive_Users_Report_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="34">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Security</x:String>
+      <x:String>System.Net</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>UiPath.Excel.Activities</x:String>
+      <x:String>UiPathTeam.Salesforce.Lightning_Platform</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="24">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>UiPathTeam.Salesforce.Activities.Lightning_Platform</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Download_Inactive_Users_Report" sap:VirtualizedContainerService.HintSize="1036,4829.6" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="str_Username" />
+      <Variable x:TypeArguments="x:String" Name="str_Password" />
+      <Variable x:TypeArguments="ss:SecureString" Name="str_SecurePwd" />
+      <Variable x:TypeArguments="x:Boolean" Name="bln_ValidConnection" />
+      <Variable x:TypeArguments="sd:DataTable" Name="DT_AtmosScreens" />
+      <Variable x:TypeArguments="x:String" Name="str_Response" />
+      <Variable x:TypeArguments="x:String" Name="str_datatable" />
+      <Variable x:TypeArguments="s:String[]" Name="str_SalesforceColumns" />
+      <Variable x:TypeArguments="x:Int32" Name="SalesforceReport_RowCount" />
+      <Variable x:TypeArguments="x:Int32" Name="SalesforceReport_UpdatedRowCount" />
+      <Variable x:TypeArguments="x:Int32" Name="Salesforce_DuplicateRowCount" />
+      <Variable x:TypeArguments="scg:List(sd:DataRow)" Name="Report_List" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Sequence DisplayName="Init Workflow" sap:VirtualizedContainerService.HintSize="994.4,742.4" sap2010:WorkflowViewState.IdRef="Sequence_11">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <ui:RetryScope DisplayName="Retry Scope" sap:VirtualizedContainerService.HintSize="390.4,349.6" sap2010:WorkflowViewState.IdRef="RetryScope_1" NumberOfRetries="3" RetryInterval="00:00:02">
+        <ui:RetryScope.ActivityBody>
+          <ActivityAction>
+            <Sequence DisplayName="Action" sap:VirtualizedContainerService.HintSize="348.8,173.6" sap2010:WorkflowViewState.IdRef="Sequence_12">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:GetRobotCredential TimeoutMS="{x:Null}" AssetName="[in_Config(&quot;Salesforce_AdminCreds&quot;).ToString]" DisplayName="Get Credential - Admin" sap:VirtualizedContainerService.HintSize="307.2,80.8" sap2010:WorkflowViewState.IdRef="GetRobotCredential_1" Password="[str_SecurePwd]" Username="[str_Username]" />
+            </Sequence>
+          </ActivityAction>
+        </ui:RetryScope.ActivityBody>
+        <ui:RetryScope.Condition>
+          <ActivityFunc x:TypeArguments="x:Boolean" />
+        </ui:RetryScope.Condition>
+      </ui:RetryScope>
+      <Assign DisplayName="secure to str" sap:VirtualizedContainerService.HintSize="390.4,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[str_Password]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[new system.Net.NetworkCredential(string.Empty,str_SecurePwd).Password]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="Assign - username" sap:VirtualizedContainerService.HintSize="390.4,60" sap2010:WorkflowViewState.IdRef="Assign_5">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[out_Username]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[str_Username]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="Assign - password" sap:VirtualizedContainerService.HintSize="390.4,60" sap2010:WorkflowViewState.IdRef="Assign_6">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[out_Password]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[str_Password]</InArgument>
+        </Assign.Value>
+      </Assign>
+    </Sequence>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke LogFile workflow - LOG-CF1" sap:VirtualizedContainerService.HintSize="994.4,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Log\LogFile.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="argIstrLogNumber">LOG-CF1</InArgument>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="argIdicConfig">[in_Config]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="argIstrKeyValues" />
+        <InArgument x:TypeArguments="x:String" x:Key="argIstrErrorScreenshot" />
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="argIdtLogNotification">[in_LogNotifications]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="arglstrTechincalExceptionMessage" />
+        <OutArgument x:TypeArguments="x:String" x:Key="argOException" />
+        <InArgument x:TypeArguments="x:Int32" x:Key="argIstrTransactionID" />
+        <InArgument x:TypeArguments="x:String" x:Key="argInDBConnectionString">[in_Config("DB_ConnectionString").ToString]</InArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:RetryScope DisplayName="Retry Scope" sap:VirtualizedContainerService.HintSize="994.4,781.6" sap2010:WorkflowViewState.IdRef="RetryScope_2" NumberOfRetries="3">
+      <ui:RetryScope.ActivityBody>
+        <ActivityAction>
+          <Sequence DisplayName="Action" sap:VirtualizedContainerService.HintSize="952.8,605.6" sap2010:WorkflowViewState.IdRef="Sequence_13">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <If Condition="[in_Config(&quot;Run_Environment&quot;).tostring.ToLower=&quot;prod&quot;]" DisplayName="Check runenv" sap:VirtualizedContainerService.HintSize="911.2,512.8" sap2010:WorkflowViewState.IdRef="If_2">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <If.Then>
+                <usl:Salesforce_Application_Scope ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" ExistingAuth="{x:Null}" ExistingService="{x:Null}" Host="{x:Null}" IsProduction="{x:Null}" Password="{x:Null}" Port="{x:Null}" ProxyPass="{x:Null}" ProxyUser="{x:Null}" ResponseService="{x:Null}" SecurityToken="{x:Null}" SecurityTokenProd="{x:Null}" TimeOut="{x:Null}" UserName="{x:Null}" Connection_Status="Close_at_scope_end" ConsumerKeyProd="[in_Config(&quot;ConsumerKey&quot;).ToString]" ConsumerSecretProd="[(New System.Net.NetworkCredential(&quot;&quot;, in_Config(&quot;ConsumerSecret&quot;).ToString)).SecurePassword]" DisplayName="2 Salesforce Application Scope prd" EnvironmentType="Production" sap:VirtualizedContainerService.HintSize="433.6,353.6" sap2010:WorkflowViewState.IdRef="Salesforce_Application_Scope_4" InvalidCommand="No" OverWriteServerType="False" PasswordProd="[(new System.Net.NetworkCredential(&quot;&quot;, str_password)).SecurePassword]" ResponseAuth="[out_Auth]" ServerType="Production" UserNameProd="[str_Username]" ValidConnection="[bln_ValidConnection]">
+                  <usl:Salesforce_Application_Scope.Body>
+                    <ActivityAction x:TypeArguments="usl:SalesForceProperty">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="usl:SalesForceProperty" Name="SalesForceScope" />
+                      </ActivityAction.Argument>
+                      <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="375.2,243.2" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke LogFile workflow - LOG-CF2" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_6" UnSafe="False" WorkflowFileName="Log\LogFile.xaml">
+                          <ui:InvokeWorkflowFile.Arguments>
+                            <InArgument x:TypeArguments="x:String" x:Key="argIstrLogNumber">LOG-CF2</InArgument>
+                            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="argIdicConfig">[in_Config]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="argIstrKeyValues" />
+                            <InArgument x:TypeArguments="x:String" x:Key="argIstrErrorScreenshot" />
+                            <InArgument x:TypeArguments="sd:DataTable" x:Key="argIdtLogNotification">[in_LogNotifications]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="arglstrTechincalExceptionMessage" />
+                            <OutArgument x:TypeArguments="x:String" x:Key="argOException" />
+                            <InArgument x:TypeArguments="x:Int32" x:Key="argIstrTransactionID" />
+                            <InArgument x:TypeArguments="x:String" x:Key="argInDBConnectionString">[in_Config("DB_ConnectionString").ToString]</InArgument>
+                          </ui:InvokeWorkflowFile.Arguments>
+                        </ui:InvokeWorkflowFile>
+                        <usl:Execute_Report Result="{x:Null}" ValidConnection="{x:Null}" DataResult="[DT_AtmosScreens]" DisplayName="Execute Report - AtmosFacilityReport" sap:VirtualizedContainerService.HintSize="333.6,22.4" sap2010:WorkflowViewState.IdRef="Execute_Report_4" InvalidCommand="No" ReportID="[in_Config(&quot;Salesforce_AtmosFacilityReportID&quot;).ToString]" Response="[str_Response]" />
+                      </Sequence>
+                    </ActivityAction>
+                  </usl:Salesforce_Application_Scope.Body>
+                </usl:Salesforce_Application_Scope>
+              </If.Then>
+              <If.Else>
+                <usl:Salesforce_Application_Scope ConsumerKeyProd="{x:Null}" ConsumerSecretProd="{x:Null}" ExistingAuth="{x:Null}" ExistingService="{x:Null}" Host="{x:Null}" IsProduction="{x:Null}" PasswordProd="{x:Null}" Port="{x:Null}" ProxyPass="{x:Null}" ProxyUser="{x:Null}" ResponseService="{x:Null}" SecurityToken="{x:Null}" SecurityTokenProd="{x:Null}" TimeOut="{x:Null}" UserNameProd="{x:Null}" Connection_Status="Close_at_scope_end" ConsumerKey="3MVG9vb5AppYzLmU7OabdBFa4lOjSarESUznS9PlYn3kwoWnGTyU3RggOPyAwV_JfiFefJmrSvZ2iaLkC92ZB" ConsumerSecret="7060A6FE258ADF473BFCA1E59B2B8A05FAC4C6298A67119BCBAF4145E78D9C5A" DisplayName="1 Salesforce Application Scope" EnvironmentType="Design_and_Test" sap:VirtualizedContainerService.HintSize="433.6,353.6" sap2010:WorkflowViewState.IdRef="Salesforce_Application_Scope_2" InvalidCommand="No" OverWriteServerType="False" Password="[str_Password]" ResponseAuth="[out_Auth]" ServerType="Sandbox" UserName="[str_Username]" ValidConnection="[bln_ValidConnection]">
+                  <usl:Salesforce_Application_Scope.Body>
+                    <ActivityAction x:TypeArguments="usl:SalesForceProperty">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="usl:SalesForceProperty" Name="SalesForceScope" />
+                      </ActivityAction.Argument>
+                      <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="375.2,243.2" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke LogFile workflow - LOG-CF2" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Log\LogFile.xaml">
+                          <ui:InvokeWorkflowFile.Arguments>
+                            <InArgument x:TypeArguments="x:String" x:Key="argIstrLogNumber">LOG-CF2</InArgument>
+                            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="argIdicConfig">[in_Config]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="argIstrKeyValues" />
+                            <InArgument x:TypeArguments="x:String" x:Key="argIstrErrorScreenshot" />
+                            <InArgument x:TypeArguments="sd:DataTable" x:Key="argIdtLogNotification">[in_LogNotifications]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="arglstrTechincalExceptionMessage" />
+                            <OutArgument x:TypeArguments="x:String" x:Key="argOException" />
+                            <InArgument x:TypeArguments="x:Int32" x:Key="argIstrTransactionID" />
+                            <InArgument x:TypeArguments="x:String" x:Key="argInDBConnectionString">[in_Config("DB_ConnectionString").ToString]</InArgument>
+                          </ui:InvokeWorkflowFile.Arguments>
+                        </ui:InvokeWorkflowFile>
+                        <usl:Execute_Report Result="{x:Null}" ValidConnection="{x:Null}" DataResult="[DT_AtmosScreens]" DisplayName="Execute Report - AtmosFacilityReport" sap:VirtualizedContainerService.HintSize="333.6,22.4" sap2010:WorkflowViewState.IdRef="Execute_Report_2" InvalidCommand="No" ReportID="[in_Config(&quot;Salesforce_AtmosFacilityReportID&quot;).ToString]" Response="[str_Response]" />
+                      </Sequence>
+                    </ActivityAction>
+                  </usl:Salesforce_Application_Scope.Body>
+                </usl:Salesforce_Application_Scope>
+              </If.Else>
+            </If>
+          </Sequence>
+        </ActivityAction>
+      </ui:RetryScope.ActivityBody>
+      <ui:RetryScope.Condition>
+        <ActivityFunc x:TypeArguments="x:Boolean" />
+      </ui:RetryScope.Condition>
+    </ui:RetryScope>
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="994.4,52.8" sap2010:WorkflowViewState.IdRef="CommentOut_2">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="304,252.8" sap2010:WorkflowViewState.IdRef="Sequence_8">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign DisplayName="Assign test" sap:VirtualizedContainerService.HintSize="262.4,60" sap2010:WorkflowViewState.IdRef="Assign_4">
+            <Assign.To>
+              <OutArgument x:TypeArguments="sd:DataTable">[out_AtmosScreens]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="sd:DataTable">[DT_AtmosScreens]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Assign - Get null records - do not delete" sap:VirtualizedContainerService.HintSize="262.4,60" sap2010:WorkflowViewState.IdRef="Assign_9">
+            <Assign.To>
+              <OutArgument x:TypeArguments="sd:DataTable">[out_AtmosScreens]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="sd:DataTable">[DT_AtmosScreens.Select("[Gracenote Theater Id]='-' or [Latitude]='-' or [Longitude]='-'").CopyToDataTable]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </ui:CommentOut.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:CommentOut>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="994.4,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Info" Message="[bln_ValidConnection]" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="994.4,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_10" Level="Info" Message="[out_Auth]" />
+    <ui:OutputDataTable DataTable="[DT_AtmosScreens]" DisplayName="Output Data Table" sap:VirtualizedContainerService.HintSize="994.4,22.4" sap2010:WorkflowViewState.IdRef="OutputDataTable_1" Text="[str_datatable]" />
+    <If sap2010:Annotation.AnnotationText="Check whether Gracenot TheaterID field is present or not from the report which is downloaded from salesforce" Condition="[str_datatable.ToString.Trim.Contains(&quot;Gracenote Theater Id&quot;)]" sap:VirtualizedContainerService.HintSize="994.4,343.2" sap2010:WorkflowViewState.IdRef="If_3">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <If.Then>
+        <Sequence DisplayName="Gracenot TheaterID field is present" sap:VirtualizedContainerService.HintSize="304,152.8" sap2010:WorkflowViewState.IdRef="Sequence_9">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign DisplayName="Assign - Get null records - do not delete" sap:VirtualizedContainerService.HintSize="262.4,60" sap2010:WorkflowViewState.IdRef="Assign_10">
+            <Assign.To>
+              <OutArgument x:TypeArguments="sd:DataTable">[out_AtmosScreens]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="sd:DataTable">[DT_AtmosScreens.Select("[Gracenote Theater Id]='-' or [Latitude]='-' or [Longitude]='-'").CopyToDataTable]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence sap:VirtualizedContainerService.HintSize="304,152.8" sap2010:WorkflowViewState.IdRef="Sequence_10">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign DisplayName="Assign - Get null records - do not delete" sap:VirtualizedContainerService.HintSize="262.4,60" sap2010:WorkflowViewState.IdRef="Assign_11">
+            <Assign.To>
+              <OutArgument x:TypeArguments="sd:DataTable">[out_AtmosScreens]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="sd:DataTable">[DT_AtmosScreens.Select("[Latitude]='-' or [Longitude]='-'").CopyToDataTable]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </If.Else>
+    </If>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="994.4,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;Salesforce Connectivity: &quot;+bln_ValidConnection.ToString+&quot; Report record count:&quot;+out_AtmosScreens.rows.Count.ToString]" />
+    <Assign sap:VirtualizedContainerService.HintSize="994.4,60" sap2010:WorkflowViewState.IdRef="Assign_14">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Int32">[SalesforceReport_RowCount]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Int32">[out_AtmosScreens.Rows.Count]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="994.4,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_11" Level="Info" Message="[&quot;No of rows in Salesforce report before removing duplicate records: &quot;+SalesforceReport_RowCount.ToString]" />
+    <Assign sap2010:Annotation.AnnotationText="Assign 3 columns(Screen / Room: Screen / Room,Atmos Commissioned Date,Plan Review Status) of Salesforce report to a variable" sap:VirtualizedContainerService.HintSize="994.4,136" sap2010:WorkflowViewState.IdRef="Assign_13">
+      <Assign.To>
+        <OutArgument x:TypeArguments="s:String[]">[str_SalesforceColumns]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="s:String[]">[in_Config("Salesforce_columns").ToString.Split(","c)]</InArgument>
+      </Assign.Value>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </Assign>
+    <ui:RemoveDataColumn Column="{x:Null}" ColumnIndex="{x:Null}" ColumnName="[str_SalesforceColumns(0)]" DataTable="[out_AtmosScreens]" DisplayName="Remove Screen/Room Data Column" sap:VirtualizedContainerService.HintSize="994.4,22.4" sap2010:WorkflowViewState.IdRef="RemoveDataColumn_1" />
+    <ui:RemoveDataColumn Column="{x:Null}" ColumnIndex="{x:Null}" ColumnName="[str_SalesforceColumns(1)]" DataTable="[out_AtmosScreens]" DisplayName="Remove Atmos Commisioned Date Data Column" sap:VirtualizedContainerService.HintSize="994.4,22.4" sap2010:WorkflowViewState.IdRef="RemoveDataColumn_2" />
+    <ui:RemoveDataColumn Column="{x:Null}" ColumnIndex="{x:Null}" ColumnName="[str_SalesforceColumns(2)]" DataTable="[out_AtmosScreens]" DisplayName="Remove Plan Review Status Data Column" sap:VirtualizedContainerService.HintSize="994.4,22.4" sap2010:WorkflowViewState.IdRef="RemoveDataColumn_3" />
+    <Assign sap2010:Annotation.AnnotationText="Remove duplicate rows in the Salesforce report which contains same data and copy to List variable. This helps in avoiding error of directly copying to datatable incase if here tareno  duplicate rows" sap:VirtualizedContainerService.HintSize="994.4,168" sap2010:WorkflowViewState.IdRef="Assign_17">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:List(sd:DataRow)">[Report_List]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:List(sd:DataRow)">[out_AtmosScreens.AsEnumerable().Distinct(DataRowComparer.Default).ToList]</InArgument>
+      </Assign.Value>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </Assign>
+    <If Condition="[Report_List.Count()&gt;0]" DisplayName="Check if duplicate row count is empty or not" sap:VirtualizedContainerService.HintSize="994.4,356" sap2010:WorkflowViewState.IdRef="If_4">
+      <If.Then>
+        <Sequence DisplayName="Duplicate rows present" sap:VirtualizedContainerService.HintSize="304,196.8" sap2010:WorkflowViewState.IdRef="Sequence_14">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign sap2010:Annotation.AnnotationText="Remove duplicate rows in the Salesforce report which contains same data" sap:VirtualizedContainerService.HintSize="262.4,104" sap2010:WorkflowViewState.IdRef="Assign_12">
+            <Assign.To>
+              <OutArgument x:TypeArguments="sd:DataTable">[out_AtmosScreens]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="sd:DataTable">[out_AtmosScreens.AsEnumerable().Distinct(DataRowComparer.Default).CopyToDataTable()]</InArgument>
+            </Assign.Value>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </Assign>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="Duplicate rows not present" sap:VirtualizedContainerService.HintSize="375.2,185.6" sap2010:WorkflowViewState.IdRef="Sequence_15">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_14" Level="Info" Message="[&quot;No duplicate rows found in the Salesforce report&quot;]" />
+        </Sequence>
+      </If.Else>
+    </If>
+    <Assign sap:VirtualizedContainerService.HintSize="994.4,60" sap2010:WorkflowViewState.IdRef="Assign_15">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Int32">[SalesforceReport_UpdatedRowCount]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Int32">[out_AtmosScreens.Rows.Count]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="994.4,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_12" Level="Info" Message="[&quot;No of rows in Salesforce report after removing duplicate records: &quot;+SalesforceReport_UpdatedRowCount.ToString]" />
+    <Assign sap:VirtualizedContainerService.HintSize="994.4,60" sap2010:WorkflowViewState.IdRef="Assign_16">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Int32">[Salesforce_DuplicateRowCount]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Int32">[SalesforceReport_RowCount-SalesforceReport_UpdatedRowCount]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="994.4,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_13" Level="Info" Message="[&quot;No of duplicate rows removed in Salesforce report: &quot;+Salesforce_DuplicateRowCount.ToString]" />
+    <If Condition="[bln_ValidConnection]" DisplayName="Valid Salesforce Connection" sap:VirtualizedContainerService.HintSize="994.4,402.4" sap2010:WorkflowViewState.IdRef="If_1">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <If.Then>
+        <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke LogFile workflow - LOG-CF4" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Log\LogFile.xaml">
+          <ui:InvokeWorkflowFile.Arguments>
+            <InArgument x:TypeArguments="x:String" x:Key="argIstrLogNumber">LOG-CF4</InArgument>
+            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="argIdicConfig">[in_Config]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="argIstrKeyValues" />
+            <InArgument x:TypeArguments="x:String" x:Key="argIstrErrorScreenshot" />
+            <InArgument x:TypeArguments="sd:DataTable" x:Key="argIdtLogNotification">[in_LogNotifications]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="arglstrTechincalExceptionMessage" />
+            <OutArgument x:TypeArguments="x:String" x:Key="argOException" />
+            <InArgument x:TypeArguments="x:Int32" x:Key="argIstrTransactionID" />
+            <InArgument x:TypeArguments="x:String" x:Key="argInDBConnectionString">[in_Config("DB_ConnectionString").ToString]</InArgument>
+          </ui:InvokeWorkflowFile.Arguments>
+        </ui:InvokeWorkflowFile>
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName=" LOG-CF3" sap:VirtualizedContainerService.HintSize="375.2,243.2" sap2010:WorkflowViewState.IdRef="Sequence_4">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke LogFile workflow - LOG-CF3" sap:VirtualizedContainerService.HintSize="333.6,88" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="Log\LogFile.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="x:String" x:Key="argIstrLogNumber">LOG-CF3</InArgument>
+              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="argIdicConfig">[in_Config]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="argIstrKeyValues" />
+              <InArgument x:TypeArguments="x:String" x:Key="argIstrErrorScreenshot" />
+              <InArgument x:TypeArguments="sd:DataTable" x:Key="argIdtLogNotification">[in_LogNotifications]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="arglstrTechincalExceptionMessage" />
+              <OutArgument x:TypeArguments="x:String" x:Key="argOException" />
+              <InArgument x:TypeArguments="x:Int32" x:Key="argIstrTransactionID" />
+              <InArgument x:TypeArguments="x:String" x:Key="argInDBConnectionString">[in_Config("DB_ConnectionString").ToString]</InArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+          <Throw DisplayName="Throw  LOG-CF3" Exception="[new Exception(&quot;Salesforce Connection - Invalid&quot;)]" sap:VirtualizedContainerService.HintSize="333.6,22.4" sap2010:WorkflowViewState.IdRef="Throw_1" />
+        </Sequence>
+      </If.Else>
+    </If>
+  </Sequence>
+</Activity>
